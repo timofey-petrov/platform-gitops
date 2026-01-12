@@ -1,0 +1,8 @@
+{% for ns in k3s_base_namespaces %}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ ns }}
+---
+{% endfor %}
+EOF

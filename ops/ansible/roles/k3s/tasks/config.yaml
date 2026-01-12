@@ -1,0 +1,53 @@
+- name: Ensure k3s config directory exists
+  file:
+    path: "{{ k3s_config_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Render k3s config
+  template:
+    src: k3s-config.yaml.j2
+    dest: "{{ k3s_config_path }}"
+    mode: "0644"
+  notify: Restart k3s
+
+- name: Ensure k3s service is enabled and running
+  systemd:
+    name: k3s
+    enabled: true
+    state: started
+
+- name: Wait for kubeconfig
+  stat:
+    path: "{{ k3s_kubeconfig_path }}"
+  register: k3s_kubeconfig_stat
+  until: k3s_kubeconfig_stat.stat.exists
+  retries: 10
+  delay: 3
+
+- name: Fetch kubeconfig to control machine
+  fetch:
+    src: "{{ k3s_kubeconfig_path }}"
+    dest: "{{ k3s_kubeconfig_local_path }}"
+    flat: true
+
+- name: Update kubeconfig server endpoint
+  replace:
+    path: "{{ k3s_kubeconfig_local_path }}"
+    regexp: "https://127\\.0\\.0\\.1:6443"
+    replace: "https://{{ k3s_api_server }}:6443"
+  delegate_to: localhost
+  run_once: true
+
+- name: Render base namespaces manifest
+  template:
+    src: namespaces.yaml.j2
+    dest: /tmp/k3s-namespaces.yaml
+    mode: "0644"
+  when: k3s_manage_namespaces
+
+- name: Apply base namespaces
+  shell: k3s kubectl apply -f /tmp/k3s-namespaces.yaml
+  register: ns_apply
+  changed_when: "'created' in ns_apply.stdout or 'configured' in ns_apply.stdout"
+  when: k3s_manage_namespaces

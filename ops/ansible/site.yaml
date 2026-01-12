@@ -1,1 +1,5 @@
-# Ansible site playbook (M1).
+- name: Bootstrap k3s cluster
+  hosts: k3s
+  become: true
+  roles:
+    - k3s

@@ -1,0 +1,6 @@
+- name: Install k3s
+  shell: |
+    curl -sfL {{ k3s_install_script_url }} | \
+    INSTALL_K3S_VERSION={{ k3s_version }} sh -
+  args:
+    creates: /usr/local/bin/k3s
