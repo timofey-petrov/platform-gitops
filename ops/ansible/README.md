@@ -13,7 +13,7 @@ Non-responsibilities:
 
 ## Run
 
-ansible-playbook site.yaml
+ansible-playbook -i inventory.ini site.yaml
 
 Kubeconfig is fetched to ops/ansible/kubeconfig and rewritten to use the node IP.
 
