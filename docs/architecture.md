@@ -18,3 +18,4 @@ Developer -> GitLab CI -> GitOps repo -> Argo CD -> Kubernetes
 - k3s is provisioned via Ansible (day-1)
 - single-node cluster for demo purposes
 - no workload delivery via Ansible
+- shell-based install is acceptable for day-1 bootstrap; delivery stays declarative

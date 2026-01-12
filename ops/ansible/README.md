@@ -10,3 +10,15 @@ Responsibilities:
 Non-responsibilities:
 - application delivery
 - cluster add-ons
+
+## Run
+
+ansible-playbook site.yaml
+
+Kubeconfig is fetched to ops/ansible/kubeconfig and rewritten to use the node IP.
+
+## Validate
+
+kubectl get nodes
+kubectl get ns
+kubectl version
