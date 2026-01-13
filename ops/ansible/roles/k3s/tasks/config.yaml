@@ -41,6 +41,24 @@
   become_user: null
   run_once: true
 
+- name: Ensure local kubeconfig directory exists
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.kube"
+    state: directory
+    mode: "0700"
+  delegate_to: localhost
+  become: false
+  run_once: true
+
+- name: Install kubeconfig to default location
+  copy:
+    src: "{{ k3s_kubeconfig_local_path }}"
+    dest: "{{ lookup('env', 'HOME') }}/.kube/config"
+    mode: "0600"
+  delegate_to: localhost
+  become: false
+  run_once: true
+
 - name: Render base namespaces manifest
   template:
     src: namespaces.yaml.j2
