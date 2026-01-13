@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: {{ ns }}
+{% if not loop.last %}
 ---
+{% endif %}
 {% endfor %}
-EOF
