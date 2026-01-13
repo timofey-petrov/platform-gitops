@@ -37,6 +37,8 @@
     regexp: "https://127\\.0\\.0\\.1:6443"
     replace: "https://{{ k3s_api_server }}:6443"
   delegate_to: localhost
+  become: false
+  become_user: null
   run_once: true
 
 - name: Render base namespaces manifest
