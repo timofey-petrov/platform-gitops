@@ -19,6 +19,7 @@ Kubeconfig is fetched to ops/ansible/kubeconfig and rewritten to use the node IP
 
 ## Validate
 
+export KUBECONFIG=./kubeconfig
 kubectl get nodes
 kubectl get ns
 kubectl version
