@@ -3,3 +3,9 @@ disable:
 {% for item in k3s_disable %}
   - {{ item }}
 {% endfor %}
+{% if k3s_tls_san %}
+tls-san:
+{% for san in k3s_tls_san %}
+  - "{{ san }}"
+{% endfor %}
+{% endif %}

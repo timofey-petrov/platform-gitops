@@ -11,6 +11,7 @@ k3s_write_kubeconfig_mode: "0644"
 k3s_disable:
   - traefik
   - servicelb
+k3s_tls_san: []
 
 k3s_manage_namespaces: true
 k3s_base_namespaces:
