@@ -1,1 +1,12 @@
-# Helm values for ingress-nginx (M2).
+controller:
+  metrics:
+    enabled: true
+    service:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+  service:
+    type: NodePort
+    nodePorts:
+      http: 30080
+      https: 30443
