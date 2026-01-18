@@ -1,1 +1,24 @@
-# Argo CD Application for kube-prometheus-stack (M6).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://prometheus-community.github.io/helm-charts
+      chart: kube-prometheus-stack
+      targetRevision: 81.1.0
+      helm:
+        releaseName: monitoring
+        valueFiles:
+          - $values/infra/monitoring/values.yaml
+    - repoURL: https://gitlab.com/timofey-petrov/platform-gitops.git
+      targetRevision: master
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

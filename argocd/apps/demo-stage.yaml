@@ -1,1 +1,17 @@
-# Argo CD Application for demo-app stage environment (M4/M5).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-stage
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://gitlab.com/timofey-petrov/platform-gitops.git
+    targetRevision: master
+    path: apps/demo-app/overlays/stage
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app-stage
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
