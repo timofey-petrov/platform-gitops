@@ -13,6 +13,12 @@ This project demonstrates a GitOps-driven Kubernetes platform.
 
 Developer -> GitLab CI -> GitOps repo -> Argo CD -> Kubernetes
 
+## GitOps delivery
+
+GitOps repo (platform-gitops)
+  -> Argo CD (App-of-Apps)
+      -> Cluster add-ons + apps
+
 ## Cluster bootstrap (M1)
 
 - k3s is provisioned via Ansible (day-1)
