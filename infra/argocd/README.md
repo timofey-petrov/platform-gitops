@@ -17,3 +17,11 @@ helm upgrade --install argocd argo/argo-cd \
 
 kubectl -n argocd get pods
 kubectl -n argocd get ingress
+
+## UI access
+
+URL: http://argocd.158.160.209.82.nip.io:30080
+
+Admin password:
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
