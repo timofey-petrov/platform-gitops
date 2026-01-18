@@ -1,0 +1,13 @@
+configs:
+  params:
+    server.insecure: true
+
+server:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hostname: argocd.158.160.209.82.nip.io
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
