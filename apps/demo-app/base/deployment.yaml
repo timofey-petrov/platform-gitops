@@ -1,1 +1,22 @@
-# demo-app Deployment manifest (placeholder for M4).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  labels:
+    app: demo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+        - name: demo-app
+          image: nginx:1.25.5
+          ports:
+            - name: http
+              containerPort: 80

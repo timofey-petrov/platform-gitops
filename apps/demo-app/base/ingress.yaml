@@ -1,1 +1,19 @@
-# demo-app Ingress manifest (placeholder for M4).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-app
+  labels:
+    app: demo-app
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: demo.placeholder
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: demo-app
+                port:
+                  number: 80

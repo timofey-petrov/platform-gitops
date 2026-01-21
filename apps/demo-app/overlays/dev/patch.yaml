@@ -1,1 +1,14 @@
-# Kustomize patch for dev (placeholder).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+spec:
+  replicas: 1
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-app
+spec:
+  rules:
+    - host: demo-dev.158.160.209.82.nip.io

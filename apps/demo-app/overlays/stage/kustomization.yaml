@@ -1,1 +1,10 @@
-# Kustomize overlay for stage (M4).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: app-stage
+
+resources:
+  - ../../base
+
+patchesStrategicMerge:
+  - patch.yaml
