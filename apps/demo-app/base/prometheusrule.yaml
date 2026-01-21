@@ -1,1 +1,37 @@
-# demo-app PrometheusRule manifest (placeholder for M7).
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: demo-app
+  labels:
+    app: demo-app
+    release: monitoring
+spec:
+  groups:
+    - name: demo-app.rules
+      rules:
+        - alert: HighErrorRate
+          expr: |
+            sum(rate(demo_app_requests_total{status=~"5.."}[5m]))
+              / sum(rate(demo_app_requests_total[5m])) > 0.05
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High error rate in demo-app"
+        - alert: HighLatencyP95
+          expr: |
+            histogram_quantile(0.95, sum(rate(demo_app_request_duration_seconds_bucket[5m])) by (le))
+              > 0.5
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "High p95 latency in demo-app"
+        - alert: CrashLoopingPod
+          expr: |
+            increase(kube_pod_container_status_restarts_total{container="demo-app"}[10m]) > 0
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "demo-app container is restarting"

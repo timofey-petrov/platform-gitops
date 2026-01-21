@@ -4,6 +4,13 @@ metadata:
   name: demo-app
 spec:
   replicas: 2
+  template:
+    spec:
+      containers:
+        - name: demo-app
+          env:
+            - name: ENV
+              value: stage
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
