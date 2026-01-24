@@ -6,5 +6,9 @@ namespace: app-stage
 resources:
   - ../../base
 
+images:
+  - name: registry.gitlab.com/timofey-petrov/demo-app
+    newTag: "0.1.0"
+
 patchesStrategicMerge:
   - patch.yaml
