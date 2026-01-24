@@ -1,6 +1,7 @@
 # GitOps Delivery Model
 
-CI builds, tests, and publishes artifacts, but does not deploy them.
+CI builds, tests, and publishes artifacts, but does not deploy them. The demo
+app uses GitHub Actions and pushes images to GHCR.
 Delivery is handled by Argo CD, which reconciles the desired state from this
 repository onto the cluster.
 
