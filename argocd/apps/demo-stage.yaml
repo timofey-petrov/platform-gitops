@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://gitlab.com/timofey-petrov/platform-gitops.git
-    targetRevision: master
+    repoURL: https://github.com/timofey-petrov/platform-gitops.git
+    targetRevision: main
     path: apps/demo-app/overlays/stage
   destination:
     server: https://kubernetes.default.svc

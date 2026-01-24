@@ -7,7 +7,7 @@ resources:
   - ../../base
 
 images:
-  - name: registry.gitlab.com/timofey-petrov/demo-app
+  - name: ghcr.io/timofey-petrov/demo-app
     newTag: "0.1.0"
 
 patchesStrategicMerge:

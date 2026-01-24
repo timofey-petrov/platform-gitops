@@ -1,6 +1,6 @@
 # GitOps Delivery Model
 
-GitLab CI builds, tests, and publishes artifacts, but does not deploy them.
+CI builds, tests, and publishes artifacts, but does not deploy them.
 Delivery is handled by Argo CD, which reconciles the desired state from this
 repository onto the cluster.
 

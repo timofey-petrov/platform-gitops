@@ -13,8 +13,8 @@ spec:
         releaseName: logging
         valueFiles:
           - $values/infra/logging/values.yaml
-    - repoURL: https://gitlab.com/timofey-petrov/platform-gitops.git
-      targetRevision: master
+    - repoURL: https://github.com/timofey-petrov/platform-gitops.git
+      targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc

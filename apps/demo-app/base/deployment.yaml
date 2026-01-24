@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: registry.gitlab.com/timofey-petrov/demo-app:0.1.0
+          image: ghcr.io/timofey-petrov/demo-app:0.1.0
           imagePullPolicy: IfNotPresent
           env:
             - name: ENV
