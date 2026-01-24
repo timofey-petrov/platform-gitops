@@ -18,3 +18,10 @@ creates and manages child applications for platform components and environments.
 - stage: manual sync for controlled promotion
 
 Argo CD is the only delivery mechanism. CI never applies manifests directly.
+
+## Image tag updates
+
+Delivery is triggered by updating the image tag in the GitOps repo. The demo app
+uses the `images` block in `apps/demo-app/overlays/dev/kustomization.yaml` and
+`apps/demo-app/overlays/stage/kustomization.yaml`. CI commits a new `newTag`
+value for dev on every successful pipeline, and stage is promoted manually.
