@@ -26,3 +26,9 @@ chunksCache:
 
 resultsCache:
   enabled: false
+
+gateway:
+  enabled: false
+
+lokiCanary:
+  enabled: false
