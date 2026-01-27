@@ -10,9 +10,16 @@ spec:
       chart: loki
       targetRevision: 6.49.0
       helm:
-        releaseName: logging
+        releaseName: loki
         valueFiles:
-          - $values/infra/logging/values.yaml
+          - $values/infra/logging/loki-values.yaml
+    - repoURL: https://fluent.github.io/helm-charts
+      chart: fluent-bit
+      targetRevision: 0.54.1
+      helm:
+        releaseName: fluent-bit
+        valueFiles:
+          - $values/infra/logging/fluent-bit-values.yaml
     - repoURL: https://github.com/timofey-petrov/platform-gitops.git
       targetRevision: main
       ref: values

@@ -1,3 +1,4 @@
+fullnameOverride: loki
 deploymentMode: SingleBinary
 
 loki:

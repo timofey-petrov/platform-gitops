@@ -1,0 +1,34 @@
+config:
+  service: |
+    [SERVICE]
+        Flush        1
+        Daemon       Off
+        Log_Level    info
+        Parsers_File parsers.conf
+  inputs: |
+    [INPUT]
+        Name              tail
+        Path              /var/log/containers/*.log
+        Tag               kube.*
+        Mem_Buf_Limit     5MB
+        Skip_Long_Lines   On
+  filters: |
+    [FILTER]
+        Name                kubernetes
+        Match               kube.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Merge_Log           On
+        Merge_Log_Key       log
+        K8S-Logging.Parser  On
+  outputs: |
+    [OUTPUT]
+        Name      loki
+        Match     kube.*
+        Host      loki.logging.svc.cluster.local
+        Port      3100
+        Labels    job=fluent-bit,namespace=$kubernetes['namespace_name'],app=$kubernetes['labels']['app'],env=$kubernetes['labels']['env']
+        LabelKeys level
+  parsers: |
+    [PARSER]
+        Name        json
+        Format      json
