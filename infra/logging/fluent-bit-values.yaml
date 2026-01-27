@@ -27,7 +27,7 @@ config:
         Host      loki.logging.svc.cluster.local
         Port      3100
         Labels    job=fluent-bit,namespace=$kubernetes['namespace_name'],app=$kubernetes['labels']['app'],env=$kubernetes['labels']['env']
-        LabelKeys level
+        label_keys level
   parsers: |
     [PARSER]
         Name        json
