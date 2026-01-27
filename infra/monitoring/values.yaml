@@ -14,18 +14,46 @@ extraObjects:
 
 prometheus:
   prometheusSpec:
+    scrapeInterval: 60s
+    scrapeTimeout: 10s
+    evaluationInterval: 60s
+    retention: 6h
     serviceMonitorSelectorNilUsesHelmValues: false
     serviceMonitorSelector: {}
     serviceMonitorNamespaceSelector: {}
     ruleSelectorNilUsesHelmValues: false
     ruleSelector: {}
     ruleNamespaceSelector: {}
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+
+alertmanager:
+  alertmanagerSpec:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 200m
+        memory: 256Mi
 
 grafana:
   admin:
     existingSecret: grafana-admin
     userKey: admin-user
     passwordKey: admin-password
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
   ingress:
     enabled: true
     ingressClassName: nginx
