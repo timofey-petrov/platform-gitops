@@ -1,17 +1,6 @@
 crds:
   enabled: false
 
-extraObjects:
-  - apiVersion: v1
-    kind: Secret
-    metadata:
-      name: grafana-admin
-      namespace: monitoring
-    type: Opaque
-    stringData:
-      admin-user: admin
-      admin-password: admin123
-
 prometheus:
   prometheusSpec:
     scrapeInterval: 60s
@@ -43,10 +32,8 @@ alertmanager:
         memory: 256Mi
 
 grafana:
-  admin:
-    existingSecret: grafana-admin
-    userKey: admin-user
-    passwordKey: admin-password
+  adminUser: admin
+  adminPassword: admin123
   resources:
     requests:
       cpu: 50m
