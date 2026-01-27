@@ -1,6 +1,39 @@
 crds:
   enabled: false
 
+extraObjects:
+  - apiVersion: v1
+    kind: Secret
+    metadata:
+      name: grafana-admin
+      namespace: monitoring
+    type: Opaque
+    stringData:
+      admin-user: admin
+      admin-password: admin123
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}
+    ruleSelectorNilUsesHelmValues: false
+    ruleSelector: {}
+    ruleNamespaceSelector: {}
+
 grafana:
-  adminUser: admin
-  adminPassword: admin123
+  admin:
+    existingSecret: grafana-admin
+    userKey: admin-user
+    passwordKey: admin-password
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.158.160.209.82.nip.io
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      access: proxy
+      url: http://loki.logging.svc.cluster.local:3100
+      isDefault: false
