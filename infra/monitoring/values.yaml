@@ -1,4 +1,2 @@
 crds:
-  enabled: true
-  upgradeJob:
-    enabled: true
+  enabled: false
