@@ -1,2 +1,6 @@
 crds:
   enabled: false
+
+grafana:
+  adminUser: admin
+  adminPassword: admin123
