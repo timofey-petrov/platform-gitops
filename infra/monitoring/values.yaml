@@ -1,1 +1,4 @@
-# Helm values for kube-prometheus-stack (M6).
+crds:
+  enabled: true
+  upgradeJob:
+    enabled: true
