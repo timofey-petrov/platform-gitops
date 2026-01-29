@@ -9,29 +9,103 @@ spec:
   groups:
     - name: demo-app.rules
       rules:
-        - alert: HighErrorRate
+        - alert: HighErrorRateDev
           expr: |
-            sum(rate(demo_app_requests_total{status=~"5.."}[5m]))
-              / sum(rate(demo_app_requests_total[5m])) > 0.05
+            sum(rate(demo_app_requests_total{status=~"5..", env="dev"}[5m]))
+              / sum(rate(demo_app_requests_total{env="dev"}[5m])) > 0.05
           for: 5m
           labels:
             severity: warning
+            env: dev
+            service: demo-app
           annotations:
-            summary: "High error rate in demo-app"
-        - alert: HighLatencyP95
+            summary: "High error rate in demo-app (dev)"
+            description: "5xx rate is above 5% for 5m in app-dev."
+            runbook_url: "https://github.com/timofey-petrov/platform-gitops/blob/main/docs/runbooks/high-error-rate.md"
+        - alert: HighErrorRateStage
           expr: |
-            histogram_quantile(0.95, sum(rate(demo_app_request_duration_seconds_bucket[5m])) by (le))
+            sum(rate(demo_app_requests_total{status=~"5..", env="stage"}[5m]))
+              / sum(rate(demo_app_requests_total{env="stage"}[5m])) > 0.02
+          for: 5m
+          labels:
+            severity: critical
+            env: stage
+            service: demo-app
+          annotations:
+            summary: "High error rate in demo-app (stage)"
+            description: "5xx rate is above 2% for 5m in app-stage."
+            runbook_url: "https://github.com/timofey-petrov/platform-gitops/blob/main/docs/runbooks/high-error-rate.md"
+        - alert: HighLatencyP95Dev
+          expr: |
+            histogram_quantile(0.95, sum(rate(demo_app_request_duration_seconds_bucket{env="dev"}[5m])) by (le))
               > 0.5
           for: 10m
           labels:
             severity: warning
+            env: dev
+            service: demo-app
           annotations:
-            summary: "High p95 latency in demo-app"
-        - alert: CrashLoopingPod
+            summary: "High p95 latency in demo-app (dev)"
+            description: "p95 latency is above 500ms for 10m in app-dev."
+            runbook_url: "https://github.com/timofey-petrov/platform-gitops/blob/main/docs/runbooks/high-latency-p95.md"
+        - alert: HighLatencyP95Stage
           expr: |
-            increase(kube_pod_container_status_restarts_total{container="demo-app"}[10m]) > 0
+            histogram_quantile(0.95, sum(rate(demo_app_request_duration_seconds_bucket{env="stage"}[5m])) by (le))
+              > 0.3
+          for: 10m
+          labels:
+            severity: critical
+            env: stage
+            service: demo-app
+          annotations:
+            summary: "High p95 latency in demo-app (stage)"
+            description: "p95 latency is above 300ms for 10m in app-stage."
+            runbook_url: "https://github.com/timofey-petrov/platform-gitops/blob/main/docs/runbooks/high-latency-p95.md"
+        - alert: CrashLoopingPodDev
+          expr: |
+            increase(kube_pod_container_status_restarts_total{container="demo-app", namespace="app-dev"}[10m]) > 0
           for: 5m
           labels:
             severity: warning
+            env: dev
+            service: demo-app
           annotations:
-            summary: "demo-app container is restarting"
+            summary: "demo-app container is restarting (dev)"
+            description: "Container restarts detected for demo-app in app-dev."
+            runbook_url: "https://github.com/timofey-petrov/platform-gitops/blob/main/docs/runbooks/crashlooping-pod.md"
+        - alert: CrashLoopingPodStage
+          expr: |
+            increase(kube_pod_container_status_restarts_total{container="demo-app", namespace="app-stage"}[10m]) > 0
+          for: 5m
+          labels:
+            severity: critical
+            env: stage
+            service: demo-app
+          annotations:
+            summary: "demo-app container is restarting (stage)"
+            description: "Container restarts detected for demo-app in app-stage."
+            runbook_url: "https://github.com/timofey-petrov/platform-gitops/blob/main/docs/runbooks/crashlooping-pod.md"
+        - alert: TargetDownDev
+          expr: |
+            up{job="demo-app", namespace="app-dev"} == 0
+          for: 5m
+          labels:
+            severity: warning
+            env: dev
+            service: demo-app
+          annotations:
+            summary: "demo-app target down (dev)"
+            description: "Prometheus cannot scrape demo-app in app-dev."
+            runbook_url: "https://github.com/timofey-petrov/platform-gitops/blob/main/docs/runbooks/target-down.md"
+        - alert: TargetDownStage
+          expr: |
+            up{job="demo-app", namespace="app-stage"} == 0
+          for: 5m
+          labels:
+            severity: critical
+            env: stage
+            service: demo-app
+          annotations:
+            summary: "demo-app target down (stage)"
+            description: "Prometheus cannot scrape demo-app in app-stage."
+            runbook_url: "https://github.com/timofey-petrov/platform-gitops/blob/main/docs/runbooks/target-down.md"
