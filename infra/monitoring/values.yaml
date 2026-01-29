@@ -22,6 +22,30 @@ prometheus:
         memory: 1Gi
 
 alertmanager:
+  config:
+    route:
+      receiver: "null"
+      group_by: ["alertname", "env", "service"]
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 3h
+      routes:
+        - receiver: "stage-pager"
+          matchers:
+            - env="stage"
+            - severity="critical"
+        - receiver: "stage-warning"
+          matchers:
+            - env="stage"
+            - severity="warning"
+        - receiver: "dev"
+          matchers:
+            - env="dev"
+    receivers:
+      - name: "null"
+      - name: "dev"
+      - name: "stage-warning"
+      - name: "stage-pager"
   alertmanagerSpec:
     resources:
       requests:
