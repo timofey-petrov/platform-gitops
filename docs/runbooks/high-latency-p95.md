@@ -28,7 +28,7 @@ kubectl -n app-<env> top pods
 
 ## Investigate
 
-- Break down by path:
+- Break down by path (Grafana Explore / Prometheus):
 
 ```
 histogram_quantile(
@@ -37,11 +37,15 @@ histogram_quantile(
 )
 ```
 
-- Look at logs around slow requests:
+- Look at logs around slow requests (Grafana Explore / Loki):
 
 ```
 {app="demo-app", env="<env>"} | json | duration_ms > 500
 ```
+
+- Suggested dashboards:
+  - "Kubernetes / Workload" (namespace + pod latency)
+  - "demo-app" (custom, if present)
 
 ## Mitigation
 
