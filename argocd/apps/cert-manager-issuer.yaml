@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-issuer
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/timofey-petrov/platform-gitops.git
+    targetRevision: main
+    path: infra/cert-manager
+    directory:
+      exclude: values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert-manager
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

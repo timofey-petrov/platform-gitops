@@ -8,6 +8,7 @@
 | kube-prometheus-stack | 81.1.0 |
 | Loki | 6.49.0 |
 | fluent-bit | 0.54.1 |
+| cert-manager | 1.19.2 |
 | Helm | 4.0.5 |
 | Ansible | 2.20.1 |
 | Terraform | 1.14.3 |
