@@ -8,6 +8,13 @@ Primary endpoints (TLS via cert-manager):
 - https://demo-dev.platform-gitops.ru
 - https://demo-stage.platform-gitops.ru
 
+demo-app routes:
+
+- https://demo-dev.platform-gitops.ru/health
+- https://demo-dev.platform-gitops.ru/metrics
+- https://demo-stage.platform-gitops.ru/health
+- https://demo-stage.platform-gitops.ru/metrics
+
 Fallback (nip.io, direct 80/443):
 
 - http://argocd.158.160.209.82.nip.io
