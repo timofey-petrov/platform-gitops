@@ -26,7 +26,13 @@ alertmanager:
     enabled: true
     ingressClassName: nginx
     hosts:
-      - alertmanager.158.160.209.82.nip.io
+      - alertmanager.platform-gitops.ru
+    tls:
+      - secretName: alertmanager-tls
+        hosts:
+          - alertmanager.platform-gitops.ru
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
   config:
     route:
       receiver: "null"
@@ -74,7 +80,13 @@ grafana:
     enabled: true
     ingressClassName: nginx
     hosts:
-      - grafana.158.160.209.82.nip.io
+      - grafana.platform-gitops.ru
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.platform-gitops.ru
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
   additionalDataSources:
     - name: Loki
       type: loki

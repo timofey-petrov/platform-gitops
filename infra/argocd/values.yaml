@@ -8,6 +8,8 @@ server:
   ingress:
     enabled: true
     ingressClassName: nginx
-    hostname: argocd.158.160.209.82.nip.io
+    hostname: argocd.platform-gitops.ru
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    tls: true
