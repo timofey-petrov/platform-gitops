@@ -12,6 +12,27 @@ and observability as a system, rather than a collection of tools.
 
 Primary goal: demonstrate readiness for a DevOps / Platform Engineer role.
 
+## What this project demonstrates (and how to evaluate)
+
+If you want to assess quality quickly:
+
+Intent and maturity:
+
+- Clear ownership boundaries (day-1 bootstrap vs day-2 delivery)
+- GitOps-first delivery model (no imperative deploys)
+- Observability as a system (metrics, logs, alerts, runbooks)
+- Incident response thinking (postmortems and action items)
+
+Where to look:
+
+- `docs/architecture.md` - platform responsibilities and design choices
+- `docs/gitops.md` - delivery model and promotion flow
+- `argocd/` - App-of-Apps structure and environment sync policies
+- `apps/demo-app/` - Kustomize base + overlays (dev/stage)
+- `infra/` - pinned Helm values for platform components
+- `docs/observability.md` + `docs/slos.md` - SLI/SLOs and alert rationale
+- `docs/runbooks/` and `docs/postmortems/` - operational maturity
+
 ## Key Highlights (TL;DR for recruiters)
 
 - GitOps delivery using Argo CD (App-of-Apps pattern)
