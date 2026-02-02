@@ -14,5 +14,23 @@ separation between CI and CD responsibilities.
 
 ## Milestones
 
-- M0: repository bootstrap (this stage)
-- M1+: see docs/architecture.md and milestone notes in docs
+Status:
+
+- M0: repository bootstrap ✅
+- M1: k3s bootstrap via Ansible ✅
+- M2: ingress + nip.io ✅
+- M3: Argo CD + App-of-Apps ✅
+- M4: demo-app + Kustomize overlays ✅
+- M5: CI → GitOps (no imperative deploy) ✅
+- M6: monitoring + logging ✅
+- M7: alerting + SLI/SLO + runbooks ✅
+- M8: incident simulation + postmortem ✅
+- M9: domain + TLS (cert-manager) ✅
+
+Details:
+
+- docs/architecture.md
+- docs/gitops.md
+- docs/observability.md
+- docs/slos.md
+- ops/access.md
