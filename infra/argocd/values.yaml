@@ -15,7 +15,13 @@ server:
     enabled: true
     ingressClassName: nginx
     hostname: argocd.platform-gitops.ru
+    hosts:
+      - argocd.platform-gitops.ru
     annotations:
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
       cert-manager.io/cluster-issuer: letsencrypt-prod
     tls: true
+    extraTls:
+      - hosts:
+          - argocd.platform-gitops.ru
+        secretName: argocd-tls
