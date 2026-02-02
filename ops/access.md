@@ -17,19 +17,12 @@ demo-app routes:
 
 Argo CD access:
 
-- Admin login uses the initial admin password (see Argo CD docs)
+- Admin user: `admin`
 - Read-only user: `readonly`
 
-Set or rotate the read-only password:
+Grafana access:
 
-1) Get current admin password:
-   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d
-
-2) Login:
-   argocd login argocd.platform-gitops.ru
-
-3) Set password for `readonly`:
-   argocd account update-password --account readonly
+- Admin user: `admin`
 
 Fallback (nip.io, direct 80/443):
 
