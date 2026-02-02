@@ -1,6 +1,12 @@
 configs:
   params:
     server.insecure: true
+  cm:
+    accounts.readonly: login
+  rbac:
+    policy.default: role:readonly
+    policy.csv: |
+      g, readonly, role:readonly
 
 server:
   service:
