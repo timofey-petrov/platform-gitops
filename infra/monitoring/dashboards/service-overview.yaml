@@ -26,6 +26,7 @@ data:
             "query": "label_values(demo_app_requests_total, env)",
             "multi": true,
             "includeAll": true,
+            "allValue": ".*",
             "current": {
               "text": "All",
               "value": "$__all"
@@ -39,6 +40,7 @@ data:
             "query": "label_values(demo_app_requests_total, namespace)",
             "multi": true,
             "includeAll": true,
+            "allValue": ".*",
             "current": {
               "text": "All",
               "value": "$__all"
@@ -52,6 +54,7 @@ data:
             "query": "label_values(demo_app_requests_total, path)",
             "multi": true,
             "includeAll": true,
+            "allValue": ".*",
             "current": {
               "text": "All",
               "value": "$__all"
