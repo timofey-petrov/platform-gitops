@@ -15,13 +15,14 @@ demo-app routes:
 - https://demo-stage.platform-gitops.ru/health
 - https://demo-stage.platform-gitops.ru/metrics
 
-Argo CD access:
+Credentials (read-only):
 
-- Read-only user: `readonly` / `readonly-argo-2026`
+- Argo CD: `readonly` / `readonly-argo-2026`
+- Grafana: `readonly` / `readonly-grafana-2026`
 
-Grafana access:
+Alertmanager:
 
-- Read-only user: `readonly` / `readonly-grafana-2026`
+- https://alertmanager.platform-gitops.ru/-/healthy
 
 Fallback (nip.io, direct 80/443):
 
