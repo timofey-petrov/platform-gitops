@@ -3,6 +3,9 @@ configs:
     server.insecure: true
   cm:
     accounts.readonly: login
+  secret:
+    accounts.readonly.password: "$2b$12$PI..x3.ChSAd4vQ.ClVfxOphXOlhc1.sJvmF7EdHoj95HDjBuCumm"
+    accounts.readonly.passwordMtime: "2026-02-03T17:52:14Z"
   rbac:
     policy.default: role:readonly
     policy.csv: |

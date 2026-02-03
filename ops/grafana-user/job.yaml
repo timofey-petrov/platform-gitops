@@ -1,0 +1,60 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: grafana-readonly-user
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: create-user
+          image: curlimages/curl:8.10.1
+          env:
+            - name: GRAFANA_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: monitoring-grafana
+                  key: admin-user
+            - name: GRAFANA_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: monitoring-grafana
+                  key: admin-password
+            - name: READONLY_USER
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-readonly-credentials
+                  key: username
+            - name: READONLY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-readonly-credentials
+                  key: password
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              base="http://monitoring-grafana.monitoring.svc.cluster.local"
+              for i in $(seq 1 30); do
+                if curl -s "$base/api/health" >/dev/null; then
+                  break
+                fi
+                sleep 2
+              done
+
+              existing_id="$(curl -s -u "$GRAFANA_ADMIN_USER:$GRAFANA_ADMIN_PASSWORD" \
+                "$base/api/users/lookup?loginOrEmail=$READONLY_USER" | sed -n 's/.*"id":\\([0-9]*\\).*/\\1/p')"
+
+              if [ -n "$existing_id" ]; then
+                echo "User $READONLY_USER already exists (id=$existing_id)"
+                exit 0
+              fi
+
+              curl -s -u "$GRAFANA_ADMIN_USER:$GRAFANA_ADMIN_PASSWORD" \
+                -H "Content-Type: application/json" \
+                -X POST "$base/api/admin/users" \
+                -d "{\"name\":\"readonly\",\"email\":\"readonly@platform-gitops.local\",\"login\":\"$READONLY_USER\",\"password\":\"$READONLY_PASSWORD\",\"role\":\"Viewer\"}"

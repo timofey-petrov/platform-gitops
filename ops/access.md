@@ -18,11 +18,12 @@ demo-app routes:
 Argo CD access:
 
 - Admin user: `admin`
-- Read-only user: `readonly`
+- Read-only user: `readonly` / `readonly-argo-2026`
 
 Grafana access:
 
 - Admin user: `admin`
+- Read-only user: `readonly` / `readonly-grafana-2026`
 
 Fallback (nip.io, direct 80/443):
 
