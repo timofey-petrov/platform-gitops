@@ -16,6 +16,11 @@ spec:
     - repoURL: https://github.com/timofey-petrov/platform-gitops.git
       targetRevision: main
       ref: values
+    - repoURL: https://github.com/timofey-petrov/platform-gitops.git
+      targetRevision: main
+      path: infra/monitoring/dashboards
+      directory:
+        recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring

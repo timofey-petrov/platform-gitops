@@ -1,0 +1,210 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-service-overview
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  service-overview.json: |
+    {
+      "uid": "demo-app-service-overview",
+      "title": "Service Overview — demo-app",
+      "schemaVersion": 39,
+      "time": {
+        "from": "now-1h",
+        "to": "now"
+      },
+      "timezone": "browser",
+      "templating": {
+        "list": [
+          {
+            "name": "env",
+            "type": "query",
+            "datasource": "Prometheus",
+            "refresh": 1,
+            "query": "label_values(demo_app_requests_total, env)",
+            "multi": true,
+            "includeAll": true,
+            "current": {
+              "text": "All",
+              "value": "$__all"
+            }
+          },
+          {
+            "name": "namespace",
+            "type": "query",
+            "datasource": "Prometheus",
+            "refresh": 1,
+            "query": "label_values(demo_app_requests_total, namespace)",
+            "multi": true,
+            "includeAll": true,
+            "current": {
+              "text": "All",
+              "value": "$__all"
+            }
+          },
+          {
+            "name": "endpoint",
+            "type": "query",
+            "datasource": "Prometheus",
+            "refresh": 1,
+            "query": "label_values(demo_app_requests_total, path)",
+            "multi": true,
+            "includeAll": true,
+            "current": {
+              "text": "All",
+              "value": "$__all"
+            }
+          }
+        ]
+      },
+      "panels": [
+        {
+          "type": "row",
+          "title": "Traffic",
+          "collapsed": false,
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Request Rate (RPS)",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "sum by (env) (rate(demo_app_requests_total{app=\\\"demo-app\\\",namespace=~\\\"$namespace\\\"}[1m]))",
+              "legendFormat": "{{env}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "req/s"
+            }
+          },
+          "gridPos": { "h": 6, "w": 24, "x": 0, "y": 1 }
+        },
+        {
+          "type": "row",
+          "title": "Errors",
+          "collapsed": false,
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Error Rate (%)",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "100 * sum by (env) (rate(demo_app_requests_total{app=\\\"demo-app\\\",status=~\\\"5..\\\",namespace=~\\\"$namespace\\\"}[5m])) / sum by (env) (rate(demo_app_requests_total{app=\\\"demo-app\\\",namespace=~\\\"$namespace\\\"}[5m]))",
+              "legendFormat": "{{env}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "green", "value": null },
+                  { "color": "yellow", "value": 1 },
+                  { "color": "red", "value": 5 }
+                ]
+              }
+            }
+          },
+          "gridPos": { "h": 6, "w": 24, "x": 0, "y": 8 }
+        },
+        {
+          "type": "row",
+          "title": "Latency",
+          "collapsed": false,
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Latency p95 (ms)",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "1000 * histogram_quantile(0.95, sum by (le, env) (rate(demo_app_request_duration_seconds_bucket{app=\\\"demo-app\\\",namespace=~\\\"$namespace\\\"}[5m])))",
+              "legendFormat": "{{env}}"
+            }
+          ],
+          "links": [
+            {
+              "title": "Logs (slow)",
+              "url": "/explore?orgId=1&left={\"datasource\":\"Loki\",\"queries\":[{\"expr\":\"{app=\\\"demo-app\\\", env=\\\"$env\\\"} |= \\\"slow\\\"\"}],\"range\":{\"from\":\"now-30m\",\"to\":\"now\"}}",
+              "targetBlank": true
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "ms",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "green", "value": null },
+                  { "color": "yellow", "value": 300 },
+                  { "color": "red", "value": 500 }
+                ]
+              }
+            }
+          },
+          "gridPos": { "h": 6, "w": 24, "x": 0, "y": 15 }
+        },
+        {
+          "type": "row",
+          "title": "Saturation",
+          "collapsed": false,
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 21 }
+        },
+        {
+          "type": "timeseries",
+          "title": "CPU usage vs requests (%)",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "100 * sum by (namespace) (rate(container_cpu_usage_seconds_total{container=\\\"demo-app\\\",namespace=~\\\"$namespace\\\"}[1m])) / sum by (namespace) (kube_pod_container_resource_requests{container=\\\"demo-app\\\",resource=\\\"cpu\\\",namespace=~\\\"$namespace\\\"})",
+              "legendFormat": "{{namespace}}"
+            }
+          ],
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent"
+            }
+          },
+          "gridPos": { "h": 6, "w": 24, "x": 0, "y": 22 }
+        },
+        {
+          "type": "row",
+          "title": "Deployment Health",
+          "collapsed": false,
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 28 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Pod Restarts (10m)",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "sum by (namespace) (increase(kube_pod_container_status_restarts_total{container=\\\"demo-app\\\",namespace=~\\\"$namespace\\\"}[10m]))",
+              "legendFormat": "{{namespace}}"
+            }
+          ],
+          "gridPos": { "h": 6, "w": 12, "x": 0, "y": 29 }
+        },
+        {
+          "type": "timeseries",
+          "title": "Ready Pods",
+          "datasource": "Prometheus",
+          "targets": [
+            {
+              "expr": "sum by (namespace) (kube_pod_status_ready{condition=\\\"true\\\",namespace=~\\\"$namespace\\\",pod=~\\\"demo-app.*\\\"})",
+              "legendFormat": "{{namespace}}"
+            }
+          ],
+          "gridPos": { "h": 6, "w": 12, "x": 12, "y": 29 }
+        }
+      ],
+      "refresh": "30s"
+    }

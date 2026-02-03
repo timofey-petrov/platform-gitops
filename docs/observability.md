@@ -9,6 +9,11 @@ It defines metrics, logs, and alerts alongside the applications they observe.
 - Grafana exposes Prometheus and Loki in one UI.
 - Fluent Bit parses JSON logs and ships to Loki with `app`, `env`, and `namespace` labels.
 
+## Dashboards
+
+- Service Overview (Golden Signals) for `demo-app` is provisioned via Grafana sidecar.
+- Dashboard JSON is stored in `infra/monitoring/dashboards/service-overview.yaml`.
+
 ## Planned SLIs
 
 - Error rate (5xx)
