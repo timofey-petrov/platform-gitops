@@ -24,6 +24,11 @@ Alertmanager:
 
 - https://alertmanager.platform-gitops.ru/-/healthy
 
+Grafana admin (stored in secret):
+
+- Secret: `grafana-admin` in namespace `monitoring`
+- Keys: `admin-user`, `admin-password`
+
 Fallback (nip.io, direct 80/443):
 
 - http://argocd.158.160.209.82.nip.io

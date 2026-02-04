@@ -67,8 +67,10 @@ alertmanager:
         memory: 256Mi
 
 grafana:
-  adminUser: admin
-  adminPassword: admin123
+  admin:
+    existingSecret: grafana-admin
+    userKey: admin-user
+    passwordKey: admin-password
   resources:
     requests:
       cpu: 50m
