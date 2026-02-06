@@ -16,12 +16,12 @@ spec:
             - name: GRAFANA_ADMIN_USER
               valueFrom:
                 secretKeyRef:
-                  name: monitoring-grafana
+                  name: grafana-admin
                   key: admin-user
             - name: GRAFANA_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: monitoring-grafana
+                  name: grafana-admin
                   key: admin-password
             - name: READONLY_USER
               valueFrom:
