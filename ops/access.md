@@ -24,6 +24,15 @@ Alertmanager:
 
 - https://alertmanager.platform-gitops.ru/-/healthy
 
+Grafana dashboards:
+
+- Service Overview — demo-app: https://grafana.platform-gitops.ru/d/demo-app-service-overview/service-overview-demo-app
+
+Security notes:
+
+- Grafana admin secret is managed via SealedSecret (credentials are not stored in Git).
+- Only read-only credentials are documented here.
+
 Fallback (nip.io, direct 80/443):
 
 - http://argocd.158.160.209.82.nip.io
